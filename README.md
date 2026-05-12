@@ -113,15 +113,9 @@ Endpoints principales:
 - `GET /health`: estado del servicio y carga del modelo.
 - `POST /predict`: clasificacion de un latido ECG.
 
-Ejemplo de payload:
-
-```json
-{
-  "signal": [0.0, 0.0, 0.0, "... hasta 187 valores"]
-}
-```
-
-El array real debe contener exactamente 187 valores numericos.
+La forma mas comoda de probar la API en local es abrir
+`http://127.0.0.1:8000/docs`. El endpoint `/predict` espera un JSON con un
+campo `signal` que contenga exactamente 187 valores numericos.
 
 ## Tests
 
