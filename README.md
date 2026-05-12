@@ -150,5 +150,6 @@ en Render. El servicio expone un endpoint publico `onrender.com` y usa
 ## Enlaces de entrega
 
 - GitHub: https://github.com/marcmaldonadolorca/ecg-heartbeat-mlops
-- Weights & Biases: pendiente de publicar el report
+- Weights & Biases run: https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/runs/ta17nn2d
+- Weights & Biases report: https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/reports/Analisis-MLOps---Clasificacion-de-latidos-ECG--VmlldzoxNjg1OTM0Mg==
 - Endpoint en produccion: pendiente de desplegar
