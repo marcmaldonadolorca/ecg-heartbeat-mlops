@@ -1,0 +1,16 @@
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+pydantic==2.12.5
+torch==2.8.0
+numpy==2.0.2
+pandas==2.3.3
+scikit-learn==1.6.1
+PyYAML==6.0.3
+kagglehub==0.3.12
+wandb==0.19.11
+pytest==8.4.2
+httpx==0.28.1
+matplotlib==3.9.4
+seaborn==0.13.2
+jupyter==1.1.1
+

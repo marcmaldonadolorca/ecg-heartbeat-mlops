@@ -1,0 +1,16 @@
+.git/
+.github/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+wandb/
+logs/
+data/
+notebook/
+tests/
+*.zip
+.env
+.env.*
+

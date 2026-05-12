@@ -1,0 +1,34 @@
+project:
+  name: ecg-heartbeat-mlops
+  author: Marc Maldonado
+
+data:
+  dataset: shayanfazeli/heartbeat
+  dir: data/heartbeat
+  download: true
+  validation_size: 0.15
+  batch_size: 256
+  max_train_samples:
+  max_test_samples:
+
+model:
+  n_classes: 5
+  n_timesteps: 187
+  base_filters: 32
+  dropout: 0.10
+
+train:
+  seed: 42
+  epochs: 6
+  learning_rate: 0.001
+
+artifacts:
+  model_dir: models
+  model_name: ecg_cnn.pt
+
+wandb:
+  enabled: false
+  project: ecg-heartbeat-mlops
+  entity:
+  job_type: training
+

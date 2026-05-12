@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ecg-heartbeat-mlops
+    runtime: docker
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: MODEL_PATH
+        value: models/ecg_cnn.pt
+

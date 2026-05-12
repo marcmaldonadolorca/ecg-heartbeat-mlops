@@ -1,0 +1,17 @@
+{
+  "model_path": "models/ecg_cnn.pt",
+  "best_val_f1_macro": 0.8932133204794382,
+  "test_metrics": {
+    "loss": 0.07848193106171246,
+    "accuracy": 0.9784396126438881,
+    "f1_macro": 0.8766040899883256,
+    "f1_weighted": 0.9772140208847566
+  },
+  "class_names": {
+    "0": "N - Normal",
+    "1": "S - Supraventricular",
+    "2": "V - Ventricular",
+    "3": "F - Fusion",
+    "4": "Q - No clasificable"
+  }
+}
