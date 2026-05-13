@@ -3,14 +3,16 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 import shutil
+from typing import TYPE_CHECKING
 
 import numpy as np
-import pandas as pd
 import torch
-from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset
 
 from ecg_mlops.config import resolve_project_path
+
+if TYPE_CHECKING:
+    import pandas as pd
 
 
 N_TIMESTEPS = 187
@@ -83,6 +85,8 @@ def load_raw_data(
             "mitbih_train.csv and mitbih_test.csv in the configured data directory."
         )
 
+    import pandas as pd
+
     return pd.read_csv(train_csv, header=None), pd.read_csv(test_csv, header=None)
 
 
@@ -118,6 +122,8 @@ def _stratified_limit(
 
     n_classes = len(np.unique(y))
     train_size = max(max_samples, n_classes)
+    from sklearn.model_selection import train_test_split
+
     selected_idx, _ = train_test_split(
         np.arange(len(y)),
         train_size=train_size,
@@ -135,6 +141,8 @@ def prepare_arrays(
     max_train_samples: int | None = None,
     max_test_samples: int | None = None,
 ) -> ECGArrays:
+    from sklearn.model_selection import train_test_split
+
     validate_raw_dataframe(df_train)
     validate_raw_dataframe(df_test)
 
