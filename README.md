@@ -147,9 +147,13 @@ La configuracion `render.yaml` permite desplegar la API como Web Service Docker
 en Render. El servicio expone un endpoint publico `onrender.com` y usa
 `/health` como health check.
 
+Endpoint desplegado:
+
+- https://ecg-heartbeat-mlops.onrender.com
+
 ## Enlaces de entrega
 
 - GitHub: https://github.com/marcmaldonadolorca/ecg-heartbeat-mlops
 - Weights & Biases run: https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/runs/ta17nn2d
 - Weights & Biases report: https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/reports/Analisis-MLOps---Clasificacion-de-latidos-ECG--VmlldzoxNjg1OTM0Mg==
-- Endpoint en produccion: pendiente de desplegar
+- Endpoint en produccion: https://ecg-heartbeat-mlops.onrender.com

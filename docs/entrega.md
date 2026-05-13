@@ -8,4 +8,4 @@ GitHub Actions y seguimiento de experimentos con W&B.
 
 - Enlace al proyecto en GitHub: https://github.com/marcmaldonadolorca/ecg-heartbeat-mlops
 - Enlace al proyecto en Weights & Biases: https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/reports/Analisis-MLOps---Clasificacion-de-latidos-ECG--VmlldzoxNjg1OTM0Mg==
-- Endpoint accesible en produccion: pendiente de pegar tras desplegar en Render
+- Endpoint accesible en produccion: https://ecg-heartbeat-mlops.onrender.com
