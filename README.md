@@ -15,9 +15,9 @@ devuelve una de cinco clases:
 | 3 | F - Fusion |
 | 4 | Q - No clasificable |
 
-El notebook original se conserva en `notebook/main.ipynb`. El codigo de
-produccion esta separado en `src/`, con entrenamiento reproducible,
-infererencia, API, tests, Docker y CI.
+El notebook original se conserva en `notebook/main.ipynb`. A partir de ese
+trabajo se ha organizado el proyecto con script de entrenamiento, API, tests,
+Docker, W&B y un workflow sencillo de GitHub Actions.
 
 ## Estructura
 
@@ -25,11 +25,11 @@ infererencia, API, tests, Docker y CI.
 config/                  Hiperparametros y rutas
 models/                  Artefactos del modelo entrenado
 notebook/                Notebook original del proyecto de la asignatura previa
-docs/                    Texto de entrega y borrador del report W&B
+docs/                    Texto usado para la entrega y el report W&B
 scripts/                 Utilidades para subir resultados a W&B
-src/ecg_mlops/           Codigo de datos, modelo, entrenamiento e API
+src/ecg_mlops/           Codigo de datos, modelo, entrenamiento y API
 tests/                   Tests de datos, modelo y API
-.github/workflows/ci.yml Pipeline de integracion continua
+.github/workflows/ci.yml Workflow sencillo de CI
 Dockerfile               Imagen para servir la API
 render.yaml              Despliegue como Web Service en Render
 ```
@@ -88,7 +88,7 @@ historial guardado con:
 python scripts/log_existing_model_to_wandb.py --project ecg-heartbeat-mlops
 ```
 
-El texto base del report esta en `docs/wandb_report.md`.
+El analisis usado para el report esta en `docs/wandb_report.md`.
 
 El entrenamiento guarda el artefacto en `models/ecg_cnn.pt` y metadatos en
 `models/metadata.json`.
@@ -133,13 +133,13 @@ docker build -t ecg-heartbeat-mlops .
 docker run --rm -p 8000:8000 -e PORT=8000 ecg-heartbeat-mlops
 ```
 
-## CI/CD
+## GitHub Actions
 
-El workflow `.github/workflows/ci.yml` ejecuta:
+El workflow `.github/workflows/ci.yml` es sencillo y ejecuta:
 
 1. Instalacion de dependencias.
 2. Tests con `pytest`.
-3. Build de la imagen Docker.
+3. Construccion de la imagen Docker.
 
 ## Despliegue
 
