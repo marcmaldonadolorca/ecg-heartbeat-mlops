@@ -15,6 +15,21 @@ devuelve una de cinco clases:
 | 3 | F - Fusion |
 | 4 | Q - No clasificable |
 
+## Resultados (test, dataset desbalanceado)
+
+| Métrica | Valor |
+| --- | --- |
+| Accuracy | **0.9784** |
+| F1 macro | **0.8766** |
+| F1 weighted | 0.9772 |
+| Mejor F1 macro (validación) | 0.8932 |
+
+El criterio de selección es **F1 macro**, no accuracy: la clase normal domina el
+dataset y la accuracy sola engaña. Detalle del experimento y curvas en
+[`docs/wandb_report.md`](docs/wandb_report.md); métricas serializadas en
+[`models/metadata.json`](models/metadata.json).
+
+
 El notebook original se conserva en `notebook/main.ipynb`. A partir de ese
 trabajo se ha organizado el proyecto con script de entrenamiento, API, tests,
 Docker, W&B y un workflow sencillo de GitHub Actions.
