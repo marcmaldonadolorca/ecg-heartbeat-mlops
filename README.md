@@ -1,174 +1,113 @@
 # ECG Heartbeat MLOps
 
-Autor: Marc Maldonado
+Classifying ECG heartbeats from the MIT-BIH Arrhythmia dataset (via the ECG Heartbeat
+Categorization Dataset), taken from a notebook to a deployed service. The model is a 1D CNN in
+PyTorch that takes a preprocessed beat of 187 time points and returns one of five classes:
 
-Proyecto MLOps para clasificar latidos ECG del dataset MIT-BIH Arrhythmia,
-incluido en ECG Heartbeat Categorization Dataset. El modelo principal es una
-CNN 1D en PyTorch que recibe un latido preprocesado de 187 puntos temporales y
-devuelve una de cinco clases:
-
-| Clase | Etiqueta |
+| Class | Label |
 | --- | --- |
-| 0 | N - Normal |
-| 1 | S - Supraventricular |
-| 2 | V - Ventricular |
-| 3 | F - Fusion |
-| 4 | Q - No clasificable |
+| 0 | N — Normal |
+| 1 | S — Supraventricular |
+| 2 | V — Ventricular |
+| 3 | F — Fusion |
+| 4 | Q — Unclassifiable |
 
-## Resultados (test, dataset desbalanceado)
+## Results (test set, imbalanced)
 
-| Métrica | Valor |
+| Metric | Value |
 | --- | --- |
-| Accuracy | **0.9784** |
-| F1 macro | **0.8766** |
+| Accuracy | 0.9784 |
+| **F1 macro** | **0.8766** |
 | F1 weighted | 0.9772 |
-| Mejor F1 macro (validación) | 0.8932 |
+| Best F1 macro (validation) | 0.8932 |
 
-El criterio de selección es **F1 macro**, no accuracy: la clase normal domina el
-dataset y la accuracy sola engaña. Detalle del experimento y curvas en
-[`docs/wandb_report.md`](docs/wandb_report.md); métricas serializadas en
-[`models/metadata.json`](models/metadata.json).
+**The selection criterion is F1 macro, not accuracy.** The normal class dominates the dataset, so
+accuracy on its own is misleading: a model that never predicts the rare classes still scores above
+0.82. The gap between 0.978 accuracy and 0.877 F1 macro is exactly the cost of the minority
+classes. Experiment detail and curves in [`docs/wandb_report.md`](docs/wandb_report.md); serialised
+metrics in [`models/metadata.json`](models/metadata.json).
 
+The original notebook is kept in `notebook/main.ipynb`. Around it the project adds a training
+script, an API, tests, Docker, W&B tracking and a GitHub Actions workflow.
 
-El notebook original se conserva en `notebook/main.ipynb`. A partir de ese
-trabajo se ha organizado el proyecto con script de entrenamiento, API, tests,
-Docker, W&B y un workflow sencillo de GitHub Actions.
-
-## Estructura
+## Layout
 
 ```text
-config/                  Hiperparametros y rutas
-models/                  Artefactos del modelo entrenado
-notebook/                Notebook original del proyecto de la asignatura previa
-docs/                    Texto usado para la entrega y el report W&B
-scripts/                 Utilidades para subir resultados a W&B
-src/ecg_mlops/           Codigo de datos, modelo, entrenamiento y API
-tests/                   Tests de datos, modelo y API
-.github/workflows/ci.yml Workflow sencillo de CI
-Dockerfile               Imagen para servir la API
-render.yaml              Despliegue como Web Service en Render
+config/                  Hyperparameters and paths
+models/                  Trained model artefacts
+notebook/                Original notebook the project grew from
+docs/                    W&B report text
+scripts/                 Utilities for pushing results to W&B
+src/ecg_mlops/           Data, model, training and API code
+tests/                   Data, model and API tests
+.github/workflows/ci.yml CI workflow
+Dockerfile               Image for serving the API
+render.yaml              Deployment as a Render Web Service
 ```
 
-## Entorno local
+## Local setup
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate      # Windows PowerShell: .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
-En Windows PowerShell:
+## Training
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-```
-
-## Entrenamiento
-
-El dataset se descarga automaticamente con KaggleHub la primera vez:
+The dataset is downloaded automatically with KaggleHub on first run:
 
 ```bash
 export PYTHONPATH=src
 python -m ecg_mlops.train --config config/config.yaml
 ```
 
-Para una prueba rapida:
+A quick smoke run:
 
 ```bash
-export PYTHONPATH=src
 python -m ecg_mlops.train --epochs 1 --max-train-samples 1000 --max-test-samples 300
 ```
 
-En Windows PowerShell se puede usar:
+To log the experiment to Weights & Biases, `wandb login` and add `--use-wandb`. If the model is
+already trained, `python scripts/log_existing_model_to_wandb.py --project ecg-heartbeat-mlops`
+uploads the artefact and the saved history. Training writes the artefact to `models/ecg_cnn.pt`
+and metadata to `models/metadata.json`.
 
-```powershell
-$env:PYTHONPATH="src"
-python -m ecg_mlops.train --config config/config.yaml
-```
-
-Para registrar el experimento en Weights & Biases:
-
-```bash
-export PYTHONPATH=src
-wandb login
-python -m ecg_mlops.train --config config/config.yaml --use-wandb
-```
-
-Si el modelo ya esta entrenado, tambien se puede subir el artefacto y el
-historial guardado con:
-
-```bash
-python scripts/log_existing_model_to_wandb.py --project ecg-heartbeat-mlops
-```
-
-El analisis usado para el report esta en `docs/wandb_report.md`.
-
-El entrenamiento guarda el artefacto en `models/ecg_cnn.pt` y metadatos en
-`models/metadata.json`.
-
-Resultado obtenido con la configuracion por defecto:
-
-| Metrica | Valor |
-| --- | ---: |
-| Accuracy test | 0.9784 |
-| F1 macro test | 0.8766 |
-| F1 weighted test | 0.9772 |
-
-## API local
+## API
 
 ```bash
 export PYTHONPATH=src
 uvicorn ecg_mlops.api:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Endpoints principales:
+- `GET /health` — service state and whether the model is loaded.
+- `POST /predict` — classify one ECG beat. Expects JSON with a `signal` field holding exactly 187
+  numeric values.
 
-- `GET /health`: estado del servicio y carga del modelo.
-- `POST /predict`: clasificacion de un latido ECG.
+The easiest way to try it locally is `http://127.0.0.1:8000/docs`.
 
-La forma mas comoda de probar la API en local es abrir
-`http://127.0.0.1:8000/docs`. El endpoint `/predict` espera un JSON con un
-campo `signal` que contenga exactamente 187 valores numericos.
-
-## Tests
+## Tests, Docker and CI
 
 ```bash
-pytest -q
-```
-
-Los tests cubren validacion de datos, shapes del modelo, gradientes y API con
-`TestClient`.
-
-## Docker
-
-```bash
+pytest -q                                      # data validation, model shapes, gradients, API
 docker build -t ecg-heartbeat-mlops .
 docker run --rm -p 8000:8000 -e PORT=8000 ecg-heartbeat-mlops
 ```
 
-## GitHub Actions
+CI (`.github/workflows/ci.yml`) installs dependencies, runs the tests and builds the Docker image.
+`render.yaml` deploys the API as a Docker Web Service on Render, using `/health` as the health
+check.
 
-El workflow `.github/workflows/ci.yml` es sencillo y ejecuta:
+## Limitations
 
-1. Instalacion de dependencias.
-2. Tests con `pytest`.
-3. Construccion de la imagen Docker.
+- Per-class metrics are not serialised, so the README cannot show a confusion matrix without
+  re-running inference — that is the clearest missing piece.
+- The five classes come from the preprocessed MIT-BIH dataset, not from raw signals: beat
+  segmentation and resampling are inherited from it, not reimplemented here.
+- A single train/test split, as the dataset ships it; no cross-validation.
 
-## Despliegue
+## Links
 
-La configuracion `render.yaml` permite desplegar la API como Web Service Docker
-en Render. El servicio expone un endpoint publico `onrender.com` y usa
-`/health` como health check.
-
-Endpoint desplegado:
-
-- https://ecg-heartbeat-mlops.onrender.com
-
-## Enlaces de entrega
-
-- GitHub: https://github.com/marcmaldonadolorca/ecg-heartbeat-mlops
-- Weights & Biases run: https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/runs/ta17nn2d
-- Weights & Biases report: https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/reports/Analisis-MLOps---Clasificacion-de-latidos-ECG--VmlldzoxNjg1OTM0Mg==
-- Endpoint en produccion: https://ecg-heartbeat-mlops.onrender.com
+- [Weights & Biases run](https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/runs/ta17nn2d)
+  · [W&B report](https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/reports/Analisis-MLOps---Clasificacion-de-latidos-ECG--VmlldzoxNjg1OTM0Mg==)
+- [Deployed endpoint](https://ecg-heartbeat-mlops.onrender.com)
