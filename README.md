@@ -110,4 +110,5 @@ check.
 
 - [Weights & Biases run](https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/runs/ta17nn2d)
   · [W&B report](https://wandb.ai/maldonadolorcamarc-real/ecg-heartbeat-mlops/reports/Analisis-MLOps---Clasificacion-de-latidos-ECG--VmlldzoxNjg1OTM0Mg==)
-- [Deployed endpoint](https://ecg-heartbeat-mlops.onrender.com)
+- [Deployed endpoint](https://ecg-heartbeat-mlops.onrender.com) — free Render instance: the first
+  request can take ~30 s while it wakes up.
