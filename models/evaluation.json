@@ -1,0 +1,222 @@
+{
+  "test_rows": 21892,
+  "cnn": {
+    "accuracy": 0.9784396126438881,
+    "f1_macro": 0.8766040899883256,
+    "per_class": {
+      "N - Normal": {
+        "precision": 0.9826646314871348,
+        "recall": 0.9949221768407109,
+        "f1-score": 0.9887554165981022,
+        "support": 18118.0
+      },
+      "S - Supraventricular": {
+        "precision": 0.9329608938547486,
+        "recall": 0.6007194244604317,
+        "f1-score": 0.7308533916849015,
+        "support": 556.0
+      },
+      "V - Ventricular": {
+        "precision": 0.944060773480663,
+        "recall": 0.944060773480663,
+        "f1-score": 0.944060773480663,
+        "support": 1448.0
+      },
+      "F - Fusion": {
+        "precision": 0.756578947368421,
+        "recall": 0.7098765432098766,
+        "f1-score": 0.732484076433121,
+        "support": 162.0
+      },
+      "Q - No clasificable": {
+        "precision": 0.9924528301886792,
+        "recall": 0.9813432835820896,
+        "f1-score": 0.9868667917448405,
+        "support": 1608.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        18026,
+        22,
+        51,
+        9,
+        10
+      ],
+      [
+        207,
+        334,
+        10,
+        5,
+        0
+      ],
+      [
+        55,
+        1,
+        1367,
+        23,
+        2
+      ],
+      [
+        31,
+        0,
+        16,
+        115,
+        0
+      ],
+      [
+        25,
+        1,
+        4,
+        0,
+        1578
+      ]
+    ]
+  },
+  "majority_class": {
+    "accuracy": 0.8276082587246483,
+    "f1_macro": 0.18113471632091976,
+    "per_class": {
+      "N - Normal": {
+        "precision": 0.8276082587246483,
+        "recall": 1.0,
+        "f1-score": 0.9056735816045989,
+        "support": 18118.0
+      },
+      "S - Supraventricular": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 556.0
+      },
+      "V - Ventricular": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1448.0
+      },
+      "F - Fusion": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 162.0
+      },
+      "Q - No clasificable": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1608.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        18118,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        556,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1448,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        162,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1608,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "logistic_regression": {
+    "accuracy": 0.9135300566416956,
+    "f1_macro": 0.6417794235266078,
+    "per_class": {
+      "N - Normal": {
+        "precision": 0.9215767206686617,
+        "recall": 0.9858704051219781,
+        "f1-score": 0.95264,
+        "support": 18118.0
+      },
+      "S - Supraventricular": {
+        "precision": 0.8326693227091634,
+        "recall": 0.37589928057553956,
+        "f1-score": 0.5179677819083024,
+        "support": 556.0
+      },
+      "V - Ventricular": {
+        "precision": 0.6533149171270718,
+        "recall": 0.3266574585635359,
+        "f1-score": 0.43554327808471455,
+        "support": 1448.0
+      },
+      "F - Fusion": {
+        "precision": 0.5897435897435898,
+        "recall": 0.2839506172839506,
+        "f1-score": 0.38333333333333336,
+        "support": 162.0
+      },
+      "Q - No clasificable": {
+        "precision": 0.9670555936856554,
+        "recall": 0.8762437810945274,
+        "f1-score": 0.9194127243066884,
+        "support": 1608.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        17862,
+        28,
+        197,
+        8,
+        23
+      ],
+      [
+        321,
+        209,
+        26,
+        0,
+        0
+      ],
+      [
+        912,
+        14,
+        473,
+        24,
+        25
+      ],
+      [
+        107,
+        0,
+        9,
+        46,
+        0
+      ],
+      [
+        180,
+        0,
+        19,
+        0,
+        1409
+      ]
+    ]
+  }
+}
